@@ -4,18 +4,20 @@ let totalFunds = 0;
 class Menu {
     constructor(bill = new Bills()){ //used to easily acess the bills class
         this.bill = bill;
-        this.totalFunds = totalFunds;
+        //this.totalFunds = totalFunds;
     }
     // get income first before getting to the main menu
     start(){
-        totalFunds = prompt(`What is your monthly income`); 
+        //totalFundsResult is here to change the prompt return into a number with parInt
+        let totalFundsResult = prompt(`What is your monthly income`);
+        totalFunds = parseInt(totalFundsResult) 
         this.options();
     }
  
     //directory for the mainMenu prompt    
     options(){
         let response = this.mainMenu();
-    while (response == 1 || 2 || 3 || 4 || 5) {
+    while (response != 0) {
         switch (response) {
             case '1': this.billAdder();
             break;
@@ -27,13 +29,13 @@ class Menu {
             break;
             case '5': this.bill.incomeChanger();
             break;
-            default: alert('Invalid Request');
+            default: 0;
                     
             }
         
             response = this.mainMenu();
         }
-    
+        alert('Bye!')
     } 
     
     mainMenu(){
@@ -49,27 +51,23 @@ class Menu {
     billAdder(){
         let result1 = prompt(`What is the name for this bill.`);
         let result2 = prompt('Bill amount');
-       // result2 = parseFloat(result2)
-           // if (result2 === Number) {
         this.bill.billsName.push(result1);
-        this.bill.billsAmount.push(Number(result2)); //Number is to keep all the numbers in the array
-            //} else {
-                //alert('Numbers only for bill amount!')
-            //}
+        this.bill.billsAmount.push(Number(result2)); //Number is to change string to number
+
         }
 
 }
 
 
 class Bills{
-    constructor(billsName, billsAmount) {
+    constructor() {
         this.billsName = [];
         this.billsAmount = [];
       this.billsTotal = 0; 
     } //for loop to list out all the bills
     viewBills() {
         let billString = ''
-        
+        console.log(('view bills'), totalFunds)
         for (let i = 0; i < this.billsName.length; i++) {
             billString += i + '. Name: '  + this.billsName[i] + '     |     ' + ' Amount: $' + this.billsAmount[i] + '\n' + '----------------------------' + '\n';
 
@@ -114,13 +112,18 @@ class Bills{
     }
 
     incomeChanger() {
-        let result = prompt('1. subtract or 2. add')
-        let result2 = Number(prompt('How much?'))
-        if (result == '1' || 'subtract') {
-            totalFunds -= result2
-        } else if (result == '2' || 'add') {
-            totalFunds += result2
-        }
+        //each prompt response is put in a variable first then use parInt on a new variable to change string to number
+        let result = prompt('1. subtract or 2. add');
+        let resultnum0 = parseInt(result);
+            if (resultnum0 == 1) {
+                let result2 = parseInt(prompt('How much?'));
+                let resultNum = parseInt(result2);
+                totalFunds -= resultNum;
+          } else if (resultnum0 == 2) {
+                let result2 = (prompt('How much?'));
+                let resultNum = parseInt(result2);
+                totalFunds += resultNum;
+          }
     }
 }
 
